@@ -86,7 +86,7 @@ namespace Test12
         {
             if (redtInput.Lines.Count() < 3 || redtInput.Text.Count() == 0)
             {
-                MessageBox.Show("Add a valid model before continuing!");
+                MessageBox.Show("Add a valid model before continuing!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
             return true;
