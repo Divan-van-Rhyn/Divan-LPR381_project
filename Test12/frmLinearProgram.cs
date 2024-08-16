@@ -28,7 +28,7 @@ namespace Test12
         private void Form1_Load(object sender, EventArgs e)
         {
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void btnKnapsack_Click(object sender, EventArgs e)
         {
             if (!ValidateModel())
             {
@@ -92,7 +92,7 @@ namespace Test12
             return true;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnClear_Click(object sender, EventArgs e)
         {
             redtInput.Clear();
             dgvOptimal.Columns.Clear();
@@ -103,12 +103,12 @@ namespace Test12
 
         private void btnTextfile_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            using (OpenFileDialog fileDialog = new OpenFileDialog())
             {
-                openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                fileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    redtInput.Text = File.ReadAllText(openFileDialog.FileName);
+                    redtInput.Text = File.ReadAllText(fileDialog.FileName);
                     btnSaveTo.Enabled = true;
                 }
             }
@@ -279,7 +279,7 @@ namespace Test12
 
         }
 
-        private void button1_Click_2(object sender, EventArgs e)
+        private void btnGraphical_Click(object sender, EventArgs e)
         {
             if (!ValidateModel())
             {
@@ -702,7 +702,7 @@ namespace Test12
 
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
+        private void btnSimplex_Click(object sender, EventArgs e)
         {
             if (!ValidateModel())
             {
@@ -939,7 +939,7 @@ namespace Test12
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnSaveTo_Click(object sender, EventArgs e)
         {
             if (dgvOptimal.Rows.Count == 0)
             {
@@ -1020,7 +1020,6 @@ namespace Test12
                 MessageBox.Show($"An error occurred while saving the file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
     }
 }
 

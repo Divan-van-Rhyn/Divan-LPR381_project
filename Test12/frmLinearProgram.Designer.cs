@@ -52,7 +52,7 @@ namespace Test12
             this.btnKnapsack.TabIndex = 0;
             this.btnKnapsack.Text = "Knapsack";
             this.btnKnapsack.UseVisualStyleBackColor = true;
-            this.btnKnapsack.Click += new System.EventHandler(this.button1_Click);
+            this.btnKnapsack.Click += new System.EventHandler(this.btnKnapsack_Click);
             // 
             // redtInput
             // 
@@ -70,7 +70,7 @@ namespace Test12
             this.btnClear.TabIndex = 2;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.button2_Click);
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnLoadFrom
             // 
@@ -86,7 +86,7 @@ namespace Test12
             // 
             this.dgvOptimal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOptimal.Location = new System.Drawing.Point(928, 414);
-            this.dgvOptimal.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvOptimal.Margin = new System.Windows.Forms.Padding(2);
             this.dgvOptimal.Name = "dgvOptimal";
             this.dgvOptimal.RowHeadersWidth = 51;
             this.dgvOptimal.RowTemplate.Height = 24;
@@ -117,35 +117,35 @@ namespace Test12
             // btnGraphical
             // 
             this.btnGraphical.Location = new System.Drawing.Point(928, 249);
-            this.btnGraphical.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnGraphical.Margin = new System.Windows.Forms.Padding(2);
             this.btnGraphical.Name = "btnGraphical";
             this.btnGraphical.Size = new System.Drawing.Size(85, 23);
             this.btnGraphical.TabIndex = 11;
             this.btnGraphical.Text = "Graphical";
             this.btnGraphical.UseVisualStyleBackColor = true;
-            this.btnGraphical.Click += new System.EventHandler(this.button1_Click_2);
+            this.btnGraphical.Click += new System.EventHandler(this.btnGraphical_Click);
             // 
             // btnSimplex
             // 
             this.btnSimplex.Location = new System.Drawing.Point(1144, 248);
-            this.btnSimplex.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSimplex.Margin = new System.Windows.Forms.Padding(2);
             this.btnSimplex.Name = "btnSimplex";
             this.btnSimplex.Size = new System.Drawing.Size(84, 24);
             this.btnSimplex.TabIndex = 12;
             this.btnSimplex.Text = "Simplex";
             this.btnSimplex.UseVisualStyleBackColor = true;
-            this.btnSimplex.Click += new System.EventHandler(this.button2_Click_1);
+            this.btnSimplex.Click += new System.EventHandler(this.btnSimplex_Click);
             // 
             // btnSaveTo
             // 
             this.btnSaveTo.Location = new System.Drawing.Point(820, 84);
-            this.btnSaveTo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSaveTo.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveTo.Name = "btnSaveTo";
             this.btnSaveTo.Size = new System.Drawing.Size(102, 24);
             this.btnSaveTo.TabIndex = 13;
             this.btnSaveTo.Text = "Save to file";
             this.btnSaveTo.UseVisualStyleBackColor = true;
-            this.btnSaveTo.Click += new System.EventHandler(this.button3_Click);
+            this.btnSaveTo.Click += new System.EventHandler(this.btnSaveTo_Click);
             // 
             // frmLinearSolver
             // 
