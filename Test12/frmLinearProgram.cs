@@ -10,10 +10,10 @@ namespace Test12
 {
     public partial class frmLinearSolver : Form
     {
-        Pen p = new Pen(Color.Black, 2);
-        Pen p1 = new Pen(Color.Green, 2);
-        Pen p2 = new Pen(Color.Red, 2);
-        Pen p3 = new Pen(Color.Blue, 2);
+        Pen pen = new Pen(Color.Black, 2);
+        Pen pen1 = new Pen(Color.Green, 2);
+        Pen pen2 = new Pen(Color.Red, 2);
+        Pen pen3 = new Pen(Color.Blue, 2);
         SolidBrush greenBrush = new SolidBrush(Color.FromArgb(64, 0, 150, 0));
         SolidBrush redBrush = new SolidBrush(Color.FromArgb(64, 255, 0, 0));
         System.Windows.Forms.Label[] AllDynamicLabels = new System.Windows.Forms.Label[50];
@@ -304,10 +304,12 @@ namespace Test12
                 return;
             }
 
+            lblDisclosure.Visible = true;
+
             Graphics g = this.CreateGraphics();
 
-            g.DrawLine(p, 335, 10, 335, 335);
-            g.DrawLine(p, 10, 335, 660, 335);
+            g.DrawLine(pen, 335, 10, 335, 335);
+            g.DrawLine(pen, 10, 335, 660, 335);
 
             string[] lines = redtInput.Lines;
             int a = lines.Length;
@@ -361,15 +363,15 @@ namespace Test12
                 Pen tempPen = new Pen(Color.Yellow);
                 if (signs[i / 2] == ">=")//picking Pen colors
                 {
-                    tempPen = p1;
+                    tempPen = pen1;
                 }
                 else if (signs[i / 2] == "<=")
                 {
-                    tempPen = p2;
+                    tempPen = pen2;
                 }
                 else if (signs[i / 2] == "=")
                 {
-                    tempPen = p3;
+                    tempPen = pen3;
                 }
                 if (x1 == 0)
                 {
@@ -489,31 +491,31 @@ namespace Test12
                 int numConstraints = model.Constraints.Count;
                 double[,] tableau = new double[numConstraints + 1, numVariables + numConstraints + 1];
 
-                // Fill in the tableau for the objective function
+                // Fill in the tableau
                 for (int i = 0; i < numVariables; i++)
                 {
-                    tableau[0, i] = -model.ObjectiveFunctionCoefficients[i]; // Coefficients for maximization
+                    tableau[0, i] = -model.ObjectiveFunctionCoefficients[i];
                 }
 
-                // Fill in the tableau for the constraints
+                // Fill in the constraints
                 for (int i = 0; i < numConstraints; i++)
                 {
                     for (int j = 0; j < numVariables; j++)
                     {
                         tableau[i + 1, j] = model.Constraints[i].Coefficients[j];
                     }
-                    tableau[i + 1, numVariables + i] = 1; // Slack variable for each constraint
-                    tableau[i + 1, numVariables + numConstraints] = model.Constraints[i].RightHandSide; // Right-hand side
+                    tableau[i + 1, numVariables + i] = 1; // Slack variables
+                    tableau[i + 1, numVariables + numConstraints] = model.Constraints[i].RightHandSide; // RHS
                 }
 
-                // Perform the Simplex algorithm
+                //Simplex
                 while (true)
                 {
-                    // Find the pivot column (most negative value in the objective row)
+                    // Find the pivot column
                     int pivotCol = FindPivotColumn(tableau);
-                    if (pivotCol == -1) break; // Optimal solution found
+                    if (pivotCol == -1) break; // Optimal solution
 
-                    // Find the pivot row (minimum ratio test)
+                    // Find the pivot row 
                     int pivotRow = FindPivotRow(tableau, pivotCol);
                     if (pivotRow == -1) throw new Exception("Problem is unbounded.");
 
@@ -521,16 +523,14 @@ namespace Test12
                     Pivot(tableau, pivotRow, pivotCol);
                 }
 
-                // Extract the solution
                 return ExtractSolution(tableau, model);
             }
 
             private static int FindPivotColumn(double[,] tableau)
             {
-                // Return the index of the most negative coefficient in the objective function row
                 int pivotCol = -1;
                 double minValue = 0;
-                for (int j = 0; j < tableau.GetLength(1) - 1; j++) // Exclude the last column (RHS)
+                for (int j = 0; j < tableau.GetLength(1) - 1; j++)
                 {
                     if (tableau[0, j] < minValue)
                     {
@@ -545,11 +545,11 @@ namespace Test12
             {
                 int pivotRow = -1;
                 double minRatio = double.MaxValue;
-                for (int i = 1; i < tableau.GetLength(0); i++) // Exclude the objective function row
+                for (int i = 1; i < tableau.GetLength(0); i++)
                 {
-                    if (tableau[i, pivotCol] > 0) // Only consider positive entries
+                    if (tableau[i, pivotCol] > 0)
                     {
-                        double ratio = tableau[i, tableau.GetLength(1) - 1] / tableau[i, pivotCol]; // RHS / pivot column
+                        double ratio = tableau[i, tableau.GetLength(1) - 1] / tableau[i, pivotCol]; 
                         if (ratio < minRatio)
                         {
                             minRatio = ratio;
@@ -562,14 +562,12 @@ namespace Test12
 
             private static void Pivot(double[,] tableau, int pivotRow, int pivotCol)
             {
-                // Scale the pivot row
                 double pivotValue = tableau[pivotRow, pivotCol];
                 for (int j = 0; j < tableau.GetLength(1); j++)
                 {
-                    tableau[pivotRow, j] /= pivotValue; // Normalize the pivot row
+                    tableau[pivotRow, j] /= pivotValue;
                 }
 
-                // Eliminate the pivot column entries in other rows
                 for (int i = 0; i < tableau.GetLength(0); i++)
                 {
                     if (i != pivotRow)
@@ -577,7 +575,7 @@ namespace Test12
                         double factor = tableau[i, pivotCol];
                         for (int j = 0; j < tableau.GetLength(1); j++)
                         {
-                            tableau[i, j] -= factor * tableau[pivotRow, j]; // Adjust other rows
+                            tableau[i, j] -= factor * tableau[pivotRow, j]; 
                         }
                     }
                 }
@@ -588,13 +586,11 @@ namespace Test12
                 var solution = new Solution();
                 solution.VariableValues = new List<double>(new double[model.ObjectiveFunctionCoefficients.Count]);
 
-                // Get optimal value from the last column of the objective function row
                 solution.OptimalValue = -tableau[0, tableau.GetLength(1) - 1];
 
-                // Get variable values
                 for (int i = 0; i < model.ObjectiveFunctionCoefficients.Count; i++)
                 {
-                    solution.VariableValues[i] = tableau[i + 1, tableau.GetLength(1) - 1]; // Get values from the last column
+                    solution.VariableValues[i] = tableau[i + 1, tableau.GetLength(1) - 1];
                 }
 
                 return solution;
@@ -618,18 +614,17 @@ namespace Test12
                 var model = ParseInput(redtInput.Text);
                 var solution = SimplexSolverWithPivotDetails.Solve(model, out List<(int PivotRow, int PivotColumn)> pivotDetails);
 
-                // Clear previous DataGridView content
+                // Clear DataGridView
                 dgvOptimal.Columns.Clear();
                 dgvOptimal.Rows.Clear();
 
-                int numColumns = model.ObjectiveFunctionCoefficients.Count + model.Constraints.Count + 1; // +1 for RHS
+                int numColumns = model.ObjectiveFunctionCoefficients.Count + model.Constraints.Count + 1; 
 
                 for (int i = 1; i < numColumns + 1; i++)
                 {
                     dgvOptimal.Columns.Add($"Column{i}", "Column " + i);
                 }
 
-                // Populate the DataGridView with tableau data and mark the pivot rows/columns
                 double[,] tableau = SimplexSolverWithPivotDetails.GetFinalTableau(model);
                 for (int i = 0; i < tableau.GetLength(0); i++)
                 {
@@ -638,7 +633,6 @@ namespace Test12
                     {
                         var cell = new DataGridViewTextBoxCell() { Value = tableau[i, j] };
 
-                        // Highlight the pivot row and column
                         if (pivotDetails.Any(p => p.PivotRow == i && p.PivotColumn == j))
                         {
                             cell.Style.BackColor = Color.Yellow;
@@ -649,7 +643,6 @@ namespace Test12
                     dgvOptimal.Rows.Add(row);
                 }
 
-                // Display optimal value permanently in a label
                 lblOptimal.Text = $"Optimal Value: {solution.OptimalValue}";
             }
             catch (Exception ex)

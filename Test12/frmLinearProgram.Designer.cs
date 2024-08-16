@@ -41,6 +41,7 @@ namespace Test12
             this.btnGraphical = new System.Windows.Forms.Button();
             this.btnSimplex = new System.Windows.Forms.Button();
             this.btnSaveTo = new System.Windows.Forms.Button();
+            this.lblDisclosure = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOptimal)).BeginInit();
             this.SuspendLayout();
             // 
@@ -147,11 +148,22 @@ namespace Test12
             this.btnSaveTo.UseVisualStyleBackColor = true;
             this.btnSaveTo.Click += new System.EventHandler(this.btnSaveTo_Click);
             // 
+            // lblDisclosure
+            // 
+            this.lblDisclosure.AutoSize = true;
+            this.lblDisclosure.Location = new System.Drawing.Point(17, 29);
+            this.lblDisclosure.Name = "lblDisclosure";
+            this.lblDisclosure.Size = new System.Drawing.Size(293, 13);
+            this.lblDisclosure.TabIndex = 14;
+            this.lblDisclosure.Text = "This graph is hardcode and does not change with the vlaues";
+            this.lblDisclosure.Visible = false;
+            // 
             // frmLinearSolver
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1080, 690);
+            this.Controls.Add(this.lblDisclosure);
             this.Controls.Add(this.btnSaveTo);
             this.Controls.Add(this.btnSimplex);
             this.Controls.Add(this.btnGraphical);
@@ -189,5 +201,6 @@ namespace Test12
         private System.Windows.Forms.Button btnGraphical;
         private System.Windows.Forms.Button btnSimplex;
         private System.Windows.Forms.Button btnSaveTo;
+        private System.Windows.Forms.Label lblDisclosure;
     }
 }
