@@ -21,7 +21,7 @@ namespace Test12
         public frmLinearSolver()
         {
             InitializeComponent();
-            InitializeDataGridView(); // Call to initialize DataGridView on form load
+            InitializeDataGridView(); 
             btnSaveTo.Enabled = false;
         }
 
@@ -30,10 +30,15 @@ namespace Test12
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            if (!ValidateModel())
+            {
+                return;
+            }
+
             try
             {
-                var model = ParseInput(redtInput.Text);
-                var solution = SimplexSolver.Solve(model);
+                var linearModel = ParseInput(redtInput.Text);
+                var solution = SimplexSolver.Solve(linearModel);
 
                 MessageBox.Show($"Optimal Value: {solution.OptimalValue}\n" +
                                 $"Variable Values: {string.Join(", ", solution.VariableValues)}");
@@ -42,16 +47,16 @@ namespace Test12
                 dgvOptimal.Columns.Clear();
                 dgvOptimal.Rows.Clear();
 
-                int numColumns = model.ObjectiveFunctionCoefficients.Count + model.Constraints.Count + 1; // +1 for RHS
-                string[] columnNames = GetCustomColumnNames(numColumns);
+                int numColumns = linearModel.ObjectiveFunctionCoefficients.Count + linearModel.Constraints.Count + 1; // +1 for RHS
+                //string[] columnNames = GetCustomColumnNames(numColumns);
 
-                for (int i = 0; i < columnNames.Length; i++)
+                for (int i = 1; i < numColumns + 1; i++)
                 {
-                    dgvOptimal.Columns.Add($"Column{i}", columnNames[i]);
+                    dgvOptimal.Columns.Add($"Column{i}", "Column " + i);
                 }
 
                 // Populate the DataGridView with tableau data
-                double[,] tableau = GetTableauData(model);
+                double[,] tableau = GetTableauData(linearModel);
                 for (int i = 0; i < tableau.GetLength(0); i++)
                 {
                     DataGridViewRow row = new DataGridViewRow();
@@ -63,17 +68,28 @@ namespace Test12
                 }
 
                 // Display optimal value permanently in a label
-                lblOptimal.Text = $"Optimal Value: {solution.OptimalValue}";
+                lblOptimal.Text = $"Optimal Value = {solution.OptimalValue}";
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}\n\nExample format:\n\n" +
-                                "max +2 +3 +3 +5 +2 +4\n" +
-                                "+11 +8 +6 +14 +10 +10 <= 40\n" +
-                                "+7 +5 +3 +9 +6 +8 <= 30\n" +
-                                "bin bin bin bin bin bin");
+                                "max +1 +2 +3 +5 +6\n" +
+                                "+1 +8 +6 +4 +1 <= 40\n" +
+                                "+5 +5 +3 +9 +6 <= 30\n" +
+                                "bin bin bin bin bin");
             }
+
             btnSaveTo.Enabled = dgvOptimal.Rows.Count > 0;
+        }
+
+        public Boolean ValidateModel()
+        {
+            if (redtInput.Lines.Count() < 3 || redtInput.Text.Count() == 0)
+            {
+                MessageBox.Show("Add a valid model before continuing!");
+                return false;
+            }
+            return true;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -82,6 +98,7 @@ namespace Test12
             dgvOptimal.Columns.Clear();
             dgvOptimal.Rows.Clear();
             lblOptimal.Text = "";
+            btnSaveTo.Enabled = false;
         }
 
         private void btnTextfile_Click(object sender, EventArgs e)
@@ -92,6 +109,7 @@ namespace Test12
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     redtInput.Text = File.ReadAllText(openFileDialog.FileName);
+                    btnSaveTo.Enabled = true;
                 }
             }
         }
@@ -211,49 +229,6 @@ namespace Test12
             dgvOptimal.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private string[] GetCustomColumnNames(int totalColumns)
-        {
-            using (Form inputForm = new Form())
-            {
-                inputForm.Text = "Column Names";
-                inputForm.Width = 400;
-                inputForm.Height = 200;
-
-                System.Windows.Forms.Label promptLabel = new System.Windows.Forms.Label()
-                {
-                    Left = 10,
-                    Top = 20,
-                    Text = "Enter column names separated by commas:"
-                };
-                TextBox inputBox = new TextBox()
-                {
-                    Left = 10,
-                    Top = 50,
-                    Width = 360,
-                    Text = string.Join(",", Enumerable.Range(1, totalColumns).Select(i => $"Column {i}"))
-                };
-                Button submitButton = new Button()
-                {
-                    Text = "Submit",
-                    Left = 270,
-                    Width = 100,
-                    Top = 100
-                };
-
-                submitButton.Click += (sender, e) => { inputForm.Close(); };
-
-                inputForm.Controls.Add(promptLabel);
-                inputForm.Controls.Add(inputBox);
-                inputForm.Controls.Add(submitButton);
-
-                inputForm.ShowDialog();
-
-                return inputBox.Text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(name => name.Trim()).ToArray();
-            }
-        }
-
-
         private void lblOptimalValue_Click(object sender, EventArgs e)
         {
 
@@ -306,6 +281,11 @@ namespace Test12
 
         private void button1_Click_2(object sender, EventArgs e)
         {
+            if (!ValidateModel())
+            {
+                return;
+            }
+
             Graphics g = this.CreateGraphics();
 
             g.DrawLine(p, 335, 10, 335, 660);
@@ -724,6 +704,11 @@ namespace Test12
 
         private void button2_Click_1(object sender, EventArgs e)
         {
+            if (!ValidateModel())
+            {
+                return;
+            }
+
             try
             {
                 var model = ParseInput(redtInput.Text);
@@ -734,11 +719,10 @@ namespace Test12
                 dgvOptimal.Rows.Clear();
 
                 int numColumns = model.ObjectiveFunctionCoefficients.Count + model.Constraints.Count + 1; // +1 for RHS
-                string[] columnNames = GetCustomColumnNames(numColumns);
 
-                for (int i = 0; i < columnNames.Length; i++)
+                for (int i = 1; i < numColumns + 1; i++)
                 {
-                    dgvOptimal.Columns.Add($"Column{i}", columnNames[i]);
+                    dgvOptimal.Columns.Add($"Column{i}", "Column " + i);
                 }
 
                 // Populate the DataGridView with tableau data and mark the pivot rows/columns
