@@ -96,6 +96,7 @@ namespace Test12
         private void btnClear_Click(object sender, EventArgs e)
         {
             redtInput.Clear();
+            redtInput.Text = "Insert canonical form or load from text file";
             dgvOptimal.Columns.Clear();
             dgvOptimal.Rows.Clear();
             lblOptimal.Text = "";
