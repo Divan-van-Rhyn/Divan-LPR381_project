@@ -46,7 +46,7 @@ namespace Test12
             // 
             // btnKnapsack
             // 
-            this.btnKnapsack.Location = new System.Drawing.Point(1036, 249);
+            this.btnKnapsack.Location = new System.Drawing.Point(270, 602);
             this.btnKnapsack.Name = "btnKnapsack";
             this.btnKnapsack.Size = new System.Drawing.Size(84, 23);
             this.btnKnapsack.TabIndex = 0;
@@ -56,7 +56,7 @@ namespace Test12
             // 
             // redtInput
             // 
-            this.redtInput.Location = new System.Drawing.Point(928, 42);
+            this.redtInput.Location = new System.Drawing.Point(124, 395);
             this.redtInput.Name = "redtInput";
             this.redtInput.Size = new System.Drawing.Size(338, 189);
             this.redtInput.TabIndex = 1;
@@ -64,7 +64,7 @@ namespace Test12
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(928, 287);
+            this.btnClear.Location = new System.Drawing.Point(810, 602);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(85, 23);
             this.btnClear.TabIndex = 2;
@@ -74,7 +74,7 @@ namespace Test12
             // 
             // btnLoadFrom
             // 
-            this.btnLoadFrom.Location = new System.Drawing.Point(820, 43);
+            this.btnLoadFrom.Location = new System.Drawing.Point(16, 396);
             this.btnLoadFrom.Name = "btnLoadFrom";
             this.btnLoadFrom.Size = new System.Drawing.Size(102, 23);
             this.btnLoadFrom.TabIndex = 3;
@@ -85,18 +85,18 @@ namespace Test12
             // dgvOptimal
             // 
             this.dgvOptimal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOptimal.Location = new System.Drawing.Point(928, 414);
+            this.dgvOptimal.Location = new System.Drawing.Point(558, 395);
             this.dgvOptimal.Margin = new System.Windows.Forms.Padding(2);
             this.dgvOptimal.Name = "dgvOptimal";
             this.dgvOptimal.RowHeadersWidth = 51;
             this.dgvOptimal.RowTemplate.Height = 24;
-            this.dgvOptimal.Size = new System.Drawing.Size(337, 150);
+            this.dgvOptimal.Size = new System.Drawing.Size(337, 189);
             this.dgvOptimal.TabIndex = 5;
             // 
             // lblOptimal
             // 
             this.lblOptimal.AutoSize = true;
-            this.lblOptimal.Location = new System.Drawing.Point(926, 398);
+            this.lblOptimal.Location = new System.Drawing.Point(556, 379);
             this.lblOptimal.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblOptimal.Name = "lblOptimal";
             this.lblOptimal.Size = new System.Drawing.Size(75, 13);
@@ -110,13 +110,13 @@ namespace Test12
             this.statusStrip1.Location = new System.Drawing.Point(0, 668);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 10, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1318, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1080, 22);
             this.statusStrip1.TabIndex = 10;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // btnGraphical
             // 
-            this.btnGraphical.Location = new System.Drawing.Point(928, 249);
+            this.btnGraphical.Location = new System.Drawing.Point(162, 602);
             this.btnGraphical.Margin = new System.Windows.Forms.Padding(2);
             this.btnGraphical.Name = "btnGraphical";
             this.btnGraphical.Size = new System.Drawing.Size(85, 23);
@@ -127,7 +127,7 @@ namespace Test12
             // 
             // btnSimplex
             // 
-            this.btnSimplex.Location = new System.Drawing.Point(1144, 248);
+            this.btnSimplex.Location = new System.Drawing.Point(378, 601);
             this.btnSimplex.Margin = new System.Windows.Forms.Padding(2);
             this.btnSimplex.Name = "btnSimplex";
             this.btnSimplex.Size = new System.Drawing.Size(84, 24);
@@ -138,7 +138,7 @@ namespace Test12
             // 
             // btnSaveTo
             // 
-            this.btnSaveTo.Location = new System.Drawing.Point(820, 84);
+            this.btnSaveTo.Location = new System.Drawing.Point(17, 433);
             this.btnSaveTo.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveTo.Name = "btnSaveTo";
             this.btnSaveTo.Size = new System.Drawing.Size(102, 24);
@@ -151,7 +151,7 @@ namespace Test12
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1318, 690);
+            this.ClientSize = new System.Drawing.Size(1080, 690);
             this.Controls.Add(this.btnSaveTo);
             this.Controls.Add(this.btnSimplex);
             this.Controls.Add(this.btnGraphical);

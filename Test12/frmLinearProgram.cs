@@ -17,6 +17,7 @@ namespace Test12
         SolidBrush greenBrush = new SolidBrush(Color.FromArgb(64, 0, 150, 0));
         SolidBrush redBrush = new SolidBrush(Color.FromArgb(64, 255, 0, 0));
         System.Windows.Forms.Label[] AllDynamicLabels = new System.Windows.Forms.Label[50];
+        int graphCount = 0;
 
         public frmLinearSolver()
         {
@@ -99,6 +100,7 @@ namespace Test12
             dgvOptimal.Rows.Clear();
             lblOptimal.Text = "";
             btnSaveTo.Enabled = false;
+            graphCount = 0;
         }
 
         private void btnTextfile_Click(object sender, EventArgs e)
@@ -189,7 +191,6 @@ namespace Test12
                 IsMaximization = isMaximization
             };
         }
-
 
         private double[,] GetTableauData(Model model)
         {
@@ -286,9 +287,25 @@ namespace Test12
                 return;
             }
 
+            var firstLine = redtInput.Lines.FirstOrDefault();
+            int plusCount = firstLine.Count(c => c == '+');
+            int minusCount = firstLine.Count(c => c == '-');
+
+            if (plusCount > 2 || minusCount > 2 || ((plusCount + minusCount) > 2))
+            {
+                MessageBox.Show("Graph can only be drawn with 2 variables!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            graphCount++;
+            if (graphCount > 1)
+            {
+                return;
+            }
+
             Graphics g = this.CreateGraphics();
 
-            g.DrawLine(p, 335, 10, 335, 660);
+            g.DrawLine(p, 335, 10, 335, 335);
             g.DrawLine(p, 10, 335, 660, 335);
 
             string[] lines = redtInput.Lines;
@@ -423,120 +440,6 @@ namespace Test12
                 }
             }
             AllDynamicLabels = labels;
-        }
-
-        private PointF GetIntersection(string constraint1, string constraint2)
-        {
-            // Parse coefficients and RHS
-            var coeffs1 = ParseConstraint(constraint1);
-            var coeffs2 = ParseConstraint(constraint2);
-
-            double a1 = coeffs1.Item1;
-            double b1 = coeffs1.Item2;
-            double c1 = coeffs1.Item3;
-
-            double a2 = coeffs2.Item1;
-            double b2 = coeffs2.Item2;
-            double c2 = coeffs2.Item3;
-
-            // Calculate intersection point
-            double det = a1 * b2 - a2 * b1;
-            if (det == 0)
-            {
-                return new PointF(float.NaN, float.NaN); // No intersection
-            }
-
-            float x = (float)(b2 * c1 - b1 * c2) / (float)det;
-            float y = (float)(a1 * c2 - a2 * c1) / (float)det;
-
-            return new PointF(x, y);
-        }
-
-        // Method to check if the point is within bounds for plotting
-        private bool IsPointInBounds(PointF point)
-        {
-            return point.X >= 0 && point.Y >= 0 && point.X <= 325 && point.Y <= 325; // Adjust based on your scale
-        }
-
-        // Method to fill the feasible area
-        private void FillFeasibleArea(Graphics g, List<PointF> intersectionPoints)
-        {
-            if (intersectionPoints.Count > 0)
-            {
-                // Sort points based on x coordinate
-                var sortedPoints = intersectionPoints.OrderBy(p => p.X).ToList();
-
-                // Create polygon points
-                PointF[] polygon = sortedPoints.Select(p => new PointF(335 + p.X * (325 / 10), 340 - p.Y * (325 / 10))).ToArray(); // Adjust scaling
-
-                // Fill the feasible area
-                g.FillPolygon(greenBrush, polygon);
-            }
-        }
-        // Method to parse a constraint string into coefficients
-        private Tuple<double, double, double> ParseConstraint(string constraint)
-        {
-            string[] parts = constraint.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            double x1 = Convert.ToDouble(parts[0]);
-            double x2 = Convert.ToDouble(parts[1]);
-            double rhs = Convert.ToDouble(parts[parts.Length - 1]);
-            return Tuple.Create(x1, x2, rhs);
-        }
-        // Method to draw feasible areas based on the sign
-        private void DrawFeasibleArea(Graphics g, string sign, int value, bool isVertical)
-        {
-            Point[] polygon;
-            if (isVertical) // Handle vertical lines
-            {
-                if (sign == "<=")
-                {
-                    polygon = new Point[]
-                    {
-                new Point(335 + value, 10),
-                new Point(335, 10),
-                new Point(335, 660),
-                new Point(335 + value, 660)
-                    };
-                    g.FillPolygon(greenBrush, polygon); // Fill with green for feasible area
-                }
-                else if (sign == ">=")
-                {
-                    polygon = new Point[]
-                    {
-                new Point(335 + value, 10),
-                new Point(660, 10),
-                new Point(660, 660),
-                new Point(335 + value, 660)
-                    };
-                    g.FillPolygon(greenBrush, polygon); // Fill with green for feasible area
-                }
-            }
-            else // Handle horizontal lines
-            {
-                if (sign == "<=")
-                {
-                    polygon = new Point[]
-                    {
-                new Point(335, 340),
-                new Point(335, 340 - value),
-                new Point(660, 340 - value),
-                new Point(660, 340)
-                    };
-                    g.FillPolygon(greenBrush, polygon); // Fill with green for feasible area
-                }
-                else if (sign == ">=")
-                {
-                    polygon = new Point[]
-                    {
-                new Point(335, 340),
-                new Point(335, 10),
-                new Point(660, 10),
-                new Point(660, 340)
-                    };
-                    g.FillPolygon(greenBrush, polygon); // Fill with green for feasible area
-                }
-            }
-
         }
 
         public class Model
